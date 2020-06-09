@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="F:/Software/Java Tools/JAR/mysql-connector-java-5.1.15-bin.jar/mysql-connector-java-5.1.15-bin.jar"/>
+	<classpathentry kind="lib" path="F:/Software/Java Tools/JAR/rs2xml.jar"/>
+	<classpathentry kind="lib" path="F:/Software/Java Tools/JAR/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="F:/Software/Java Tools/AbsoluteLayout-RELEASE120.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

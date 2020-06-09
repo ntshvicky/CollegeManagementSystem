@@ -1,0 +1,1071 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Com.Dufins.Developer.HRManagement.Forms;
+
+import Util.Util;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Owner
+ */
+public class TaxAllowance extends javax.swing.JPanel {
+
+    /**
+     * Creates new form TaxAllowance
+     */
+    Connection connection = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    public TaxAllowance() {
+        initComponents();
+        rbTaxRate.setSelected(true);
+        rbDARate.setSelected(true);
+        rbBonusRate.setSelected(true);
+        rbAccRate.setSelected(true);
+        rbMedRate.setSelected(true);
+        rbTravRate.setSelected(true);
+        rbOtherRate.setSelected(true);
+        try {
+            connection = Util.getConnection();
+            retTax();
+            retAllowance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void retTax() {
+        try {
+            pstmt = connection.prepareStatement("select * from tax_setting");
+            rs = pstmt.executeQuery();
+            Tax_Table.setModel(net.proteanit.sql.DbUtils.resultSetToTableModel(rs));
+            Tax_Table.getColumnModel().getColumn(0).setHeaderValue("Tax Name");
+            Tax_Table.getColumnModel().getColumn(1).setHeaderValue("Rate");
+            Tax_Table.getTableHeader().resizeAndRepaint();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void retAllowance()
+    {
+        try {
+            pstmt = connection.prepareStatement("select * from allowance_setting");
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                if (rs.getString(1).equals("DA")) {
+                    if (rs.getString(2).contains("%")) {
+                        rbDARate.setSelected(true);
+                        txtDARate.setText(rs.getString(2).substring(0, rs.getString(2).length() - 1));
+                    } else {
+                        txtDAAmt.setText(rs.getString(2).trim());
+                        rbDAAmt.setSelected(true);
+                    }
+                }
+                if (rs.getString(1).equals("Bonus")) {
+                    if (rs.getString(2).contains("%")) {
+                        rbBonusRate.setSelected(true);
+                        txtBonusRate.setText(rs.getString(2).substring(0, rs.getString(2).length() - 1));
+                    } else {
+                        txtBonusAmt.setText(rs.getString(2).trim());
+                        rbBonusAmt.setSelected(true);
+                    }
+                }
+                if (rs.getString(1).equals("Accommodation")) {
+                    if (rs.getString(2).contains("%")) {
+                        rbAccRate.setSelected(true);
+                        txtAccRate.setText(rs.getString(2).substring(0, rs.getString(2).length() - 1));
+                    } else {
+                        txtAccAmt.setText(rs.getString(2).trim());
+                        rbAccAmt.setSelected(true);
+                    }
+                }
+                if (rs.getString(1).equals("Medical")) {
+                    if (rs.getString(2).contains("%")) {
+                        rbMedRate.setSelected(true);
+                        txtMedRate.setText(rs.getString(2).substring(0, rs.getString(2).length() - 1));
+                    } else {
+                        txtMedAmt.setText(rs.getString(2).trim());
+                        rbMedAmt.setSelected(true);
+                    }
+                }
+                if (rs.getString(1).equals("Traveling")) {
+                    if (rs.getString(2).contains("%")) {
+                        rbTravRate.setSelected(true);
+                        txtTravRate.setText(rs.getString(2).substring(0, rs.getString(2).length() - 1));
+                    } else {
+                        txtTravAmt.setText(rs.getString(2).trim());
+                        rbTravAmt.setSelected(true);
+                    }
+                }
+                if (rs.getString(1).equals("Other")) {
+                    if (rs.getString(2).contains("%")) {
+                        rbOtherRate.setSelected(true);
+                        txtOtherRate.setText(rs.getString(2).substring(0, rs.getString(2).length() - 1));
+                    } else {
+                        txtOtherAmt.setText(rs.getString(2).trim());
+                        rbOtherAmt.setSelected(true);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
+        buttonGroup5 = new javax.swing.ButtonGroup();
+        buttonGroup6 = new javax.swing.ButtonGroup();
+        buttonGroup7 = new javax.swing.ButtonGroup();
+        taxPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        cmbTaxName = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        txtTaxName = new javax.swing.JTextField();
+        rbTaxRate = new javax.swing.JRadioButton();
+        txtTaxRate = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtTaxAmt = new javax.swing.JTextField();
+        rbTaxAmt = new javax.swing.JRadioButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Tax_Table = new javax.swing.JTable(){
+            public boolean isCellEditable(int row,int column){
+                if(column == 0)
+                return false;//the 0th column is not editable
+                return true;
+            }
+        };
+        BtnAdd = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        rbDARate = new javax.swing.JRadioButton();
+        txtDARate = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        rbDAAmt = new javax.swing.JRadioButton();
+        txtDAAmt = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        rbBonusRate = new javax.swing.JRadioButton();
+        txtBonusRate = new javax.swing.JTextField();
+        rbBonusAmt = new javax.swing.JRadioButton();
+        txtBonusAmt = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        rbAccRate = new javax.swing.JRadioButton();
+        txtAccRate = new javax.swing.JTextField();
+        rbAccAmt = new javax.swing.JRadioButton();
+        txtAccAmt = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        rbMedRate = new javax.swing.JRadioButton();
+        txtMedRate = new javax.swing.JTextField();
+        rbMedAmt = new javax.swing.JRadioButton();
+        txtMedAmt = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        rbTravRate = new javax.swing.JRadioButton();
+        txtTravRate = new javax.swing.JTextField();
+        rbTravAmt = new javax.swing.JRadioButton();
+        txtTravAmt = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        rbOtherRate = new javax.swing.JRadioButton();
+        txtOtherRate = new javax.swing.JTextField();
+        rbOtherAmt = new javax.swing.JRadioButton();
+        txtOtherAmt = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        BtnApply = new javax.swing.JLabel();
+        BtnClose = new javax.swing.JLabel();
+
+        setBackground(new java.awt.Color(255, 255, 255));
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, " Tax & Allowance Settings", 2, 3, new java.awt.Font("Arial", 1, 18), new java.awt.Color(0, 0, 51))); // NOI18N
+
+        taxPanel.setBackground(new java.awt.Color(255, 255, 255));
+        taxPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tax info", 0, 3, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 0, 51))); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel1.setText("Tax Name:");
+
+        cmbTaxName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Income Tax" }));
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel2.setText("If Other    :");
+
+        rbTaxRate.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(rbTaxRate);
+        rbTaxRate.setText("Rate");
+
+        txtTaxRate.setText(" ");
+        txtTaxRate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTaxRateKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTaxRateKeyTyped(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel5.setText("%");
+
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel6.setText("Rs.");
+
+        txtTaxAmt.setText(" ");
+        txtTaxAmt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTaxAmtKeyTyped(evt);
+            }
+        });
+
+        rbTaxAmt.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(rbTaxAmt);
+        rbTaxAmt.setText("Amount");
+
+        Tax_Table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        Tax_Table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tax_TableMouseClicked(evt);
+            }
+        });
+        Tax_Table.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                Tax_TablePropertyChange(evt);
+            }
+        });
+        Tax_Table.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                Tax_TableKeyPressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(Tax_Table);
+
+        BtnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/add.png"))); // NOI18N
+        BtnAdd.setToolTipText("Add Tax data to table");
+        BtnAdd.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        BtnAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BtnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnAddMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout taxPanelLayout = new javax.swing.GroupLayout(taxPanel);
+        taxPanel.setLayout(taxPanelLayout);
+        taxPanelLayout.setHorizontalGroup(
+            taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(taxPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(taxPanelLayout.createSequentialGroup()
+                        .addGroup(taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTaxName, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbTaxName, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(taxPanelLayout.createSequentialGroup()
+                        .addGroup(taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbTaxAmt)
+                            .addComponent(rbTaxRate, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(taxPanelLayout.createSequentialGroup()
+                                .addComponent(txtTaxRate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel5))
+                            .addGroup(taxPanelLayout.createSequentialGroup()
+                                .addGroup(taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(BtnAdd)
+                                    .addComponent(txtTaxAmt, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel6)))))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        taxPanelLayout.setVerticalGroup(
+            taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(taxPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(taxPanelLayout.createSequentialGroup()
+                .addGroup(taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(cmbTaxName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTaxName)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(taxPanelLayout.createSequentialGroup()
+                        .addGroup(taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTaxRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(11, 11, 11))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, taxPanelLayout.createSequentialGroup()
+                        .addComponent(rbTaxRate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(taxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtTaxAmt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6))
+                    .addComponent(rbTaxAmt))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BtnAdd)
+                .addGap(26, 26, 26))
+        );
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Allowance info", 0, 3, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 0, 51))); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel3.setText("Dearness Allowance (D.A) :");
+
+        rbDARate.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup2.add(rbDARate);
+        rbDARate.setText("Rate");
+
+        txtDARate.setText(" ");
+        txtDARate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDARateKeyTyped(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel7.setText("%");
+
+        rbDAAmt.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup2.add(rbDAAmt);
+        rbDAAmt.setText("Amount");
+
+        txtDAAmt.setText(" ");
+        txtDAAmt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDAAmtKeyTyped(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel8.setText("Rs.");
+
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel4.setText("Bouns                                     :");
+
+        rbBonusRate.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup3.add(rbBonusRate);
+        rbBonusRate.setText("Rate");
+
+        txtBonusRate.setText(" ");
+        txtBonusRate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBonusRateKeyTyped(evt);
+            }
+        });
+
+        rbBonusAmt.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup3.add(rbBonusAmt);
+        rbBonusAmt.setText("Amount");
+
+        txtBonusAmt.setText(" ");
+        txtBonusAmt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBonusAmtKeyTyped(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel9.setText("Rs.");
+
+        jLabel10.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel10.setText("Accommodation                  :");
+
+        rbAccRate.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup4.add(rbAccRate);
+        rbAccRate.setText("Rate");
+
+        txtAccRate.setText(" ");
+        txtAccRate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtAccRateKeyTyped(evt);
+            }
+        });
+
+        rbAccAmt.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup4.add(rbAccAmt);
+        rbAccAmt.setText("Amount");
+
+        txtAccAmt.setText(" ");
+        txtAccAmt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtAccAmtKeyTyped(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel11.setText("Rs.");
+
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel12.setText("Medical                                  :");
+
+        rbMedRate.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup5.add(rbMedRate);
+        rbMedRate.setText("Rate");
+
+        txtMedRate.setText(" ");
+        txtMedRate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMedRateKeyTyped(evt);
+            }
+        });
+
+        rbMedAmt.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup5.add(rbMedAmt);
+        rbMedAmt.setText("Amount");
+
+        txtMedAmt.setText(" ");
+        txtMedAmt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMedAmtKeyTyped(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel13.setText("Rs.");
+
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel14.setText("Traveling                               :");
+
+        rbTravRate.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup6.add(rbTravRate);
+        rbTravRate.setText("Rate");
+
+        txtTravRate.setText(" ");
+        txtTravRate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTravRateKeyTyped(evt);
+            }
+        });
+
+        rbTravAmt.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup6.add(rbTravAmt);
+        rbTravAmt.setText("Amount");
+
+        txtTravAmt.setText(" ");
+        txtTravAmt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTravAmtKeyTyped(evt);
+            }
+        });
+
+        jLabel15.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel15.setText("Rs.");
+
+        jLabel16.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel16.setText("Other                                      :");
+
+        rbOtherRate.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup7.add(rbOtherRate);
+        rbOtherRate.setText("Rate");
+
+        txtOtherRate.setText(" ");
+        txtOtherRate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtOtherRateKeyTyped(evt);
+            }
+        });
+
+        rbOtherAmt.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup7.add(rbOtherAmt);
+        rbOtherAmt.setText("Amount");
+
+        txtOtherAmt.setText(" ");
+        txtOtherAmt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtOtherAmtKeyTyped(evt);
+            }
+        });
+
+        jLabel17.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel17.setText("Rs.");
+
+        jLabel21.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel21.setText("%");
+
+        jLabel22.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel22.setText("%");
+
+        jLabel23.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel23.setText("%");
+
+        jLabel24.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel24.setText("%");
+
+        jLabel25.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel25.setText("%");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbTravRate, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtTravRate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel24)
+                        .addGap(16, 16, 16)
+                        .addComponent(rbTravAmt)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtTravAmt, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel15))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbDARate, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtDARate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbDAAmt)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtDAAmt, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbBonusRate, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtBonusRate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel21)
+                        .addGap(16, 16, 16)
+                        .addComponent(rbBonusAmt)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtBonusAmt, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel9))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbAccRate, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtAccRate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel22)
+                        .addGap(16, 16, 16)
+                        .addComponent(rbAccAmt)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtAccAmt, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel11))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbMedRate, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtMedRate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel23)
+                        .addGap(16, 16, 16)
+                        .addComponent(rbMedAmt)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtMedAmt, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel13))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbOtherRate, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtOtherRate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel25)
+                        .addGap(16, 16, 16)
+                        .addComponent(rbOtherAmt)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtOtherAmt, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel17)))
+                .addContainerGap(109, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtDAAmt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8))
+                    .addComponent(rbDAAmt)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtDARate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel7))
+                            .addGap(4, 4, 4))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbDARate)
+                            .addComponent(jLabel3))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtBonusAmt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9))
+                    .addComponent(rbBonusAmt)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtBonusRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel21))
+                            .addGap(4, 4, 4))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbBonusRate)
+                            .addComponent(jLabel4))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtAccAmt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11))
+                    .addComponent(rbAccAmt)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtAccRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel22))
+                            .addGap(4, 4, 4))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbAccRate)
+                            .addComponent(jLabel10))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtMedAmt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel13))
+                    .addComponent(rbMedAmt)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtMedRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel23))
+                            .addGap(4, 4, 4))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbMedRate)
+                            .addComponent(jLabel12))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtTravAmt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel15))
+                    .addComponent(rbTravAmt)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtTravRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel24))
+                            .addGap(4, 4, 4))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbTravRate)
+                            .addComponent(jLabel14))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtOtherAmt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel17))
+                    .addComponent(rbOtherAmt)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtOtherRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel25))
+                            .addGap(4, 4, 4))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbOtherRate)
+                            .addComponent(jLabel16)))))
+        );
+
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/nilaicon.png"))); // NOI18N
+
+        BtnApply.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/save_as.png"))); // NOI18N
+        BtnApply.setToolTipText("Apply Tax & Allowance Settings");
+        BtnApply.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        BtnApply.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BtnApply.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnApplyMouseClicked(evt);
+            }
+        });
+
+        BtnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Crystal_button_cancel.png"))); // NOI18N
+        BtnClose.setToolTipText("Close Panel");
+        BtnClose.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        BtnClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(BtnApply)
+                        .addGap(18, 18, 18)
+                        .addComponent(BtnClose))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(taxPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(taxPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BtnApply)
+                    .addComponent(BtnClose))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void BtnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAddMouseClicked
+        // TODO add your handling code here:
+        try {
+            pstmt = connection.prepareStatement("insert into tax_setting values(?, ?) ");
+            String taxname = (txtTaxName.getText().length() == 0) ? cmbTaxName.getSelectedItem().toString() : txtTaxName.getText().trim();
+            pstmt.setString(1, taxname);
+            String taxrate = (rbTaxRate.isSelected()) ? txtTaxRate.getText().trim() + "%" : txtTaxAmt.getText().trim();
+            pstmt.setString(2, taxrate);
+            int a = pstmt.executeUpdate();
+            if (a > 0) {
+                retTax();
+            }
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            JOptionPane.showMessageDialog(this, "Data already exists.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_BtnAddMouseClicked
+
+    private void BtnApplyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnApplyMouseClicked
+        // TODO add your handling code here:
+        try {
+            connection.setAutoCommit(false);
+            pstmt = connection.prepareStatement("update allowance_setting set rate = ? where attribute = ? ");
+            String da = (rbDARate.isSelected()) ? txtDARate.getText().trim() + "%" : txtDAAmt.getText().trim();
+            pstmt.setString(1, da);
+            pstmt.setString(2, "DA");
+            pstmt.addBatch();
+            String bonus = (rbBonusRate.isSelected()) ? txtBonusRate.getText().trim() + "%" : txtBonusAmt.getText().trim();
+            pstmt.setString(1, bonus);
+            pstmt.setString(2, "Bonus");
+            pstmt.addBatch();
+            String acc = (rbAccRate.isSelected()) ? txtAccRate.getText().trim() + "%" : txtAccAmt.getText().trim();
+            pstmt.setString(1, acc);
+            pstmt.setString(2, "Accommodation");
+            pstmt.addBatch();
+            String med = (rbMedRate.isSelected()) ? txtMedRate.getText().trim() + "%" : txtMedAmt.getText().trim();
+            pstmt.setString(1, med);
+            pstmt.setString(2, "Medical");
+            pstmt.addBatch();
+            String travel = (rbTravRate.isSelected()) ? txtTravRate.getText().trim() + "%" : txtTravAmt.getText().trim();
+            pstmt.setString(1, travel);
+            pstmt.setString(2, "Traveling");
+            pstmt.addBatch();
+            String other = (rbOtherRate.isSelected()) ? txtOtherRate.getText().trim() + "%" : txtOtherAmt.getText().trim();
+            pstmt.setString(1, other);
+            pstmt.setString(2, "Other");
+            pstmt.addBatch();
+
+            int a[] = pstmt.executeBatch();
+            if (a.length > 0) {
+                JOptionPane.showMessageDialog(this, "Tax & Allownces details successfully updated.");
+            }
+            connection.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_BtnApplyMouseClicked
+
+    private void Tax_TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tax_TableMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Tax_TableMouseClicked
+
+    private void Tax_TableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Tax_TableKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == java.awt.Event.DELETE) {
+            int row = Tax_Table.getSelectedRow();
+            try {
+                pstmt = connection.prepareStatement("delete from tax_setting where tax_name = ?");
+                pstmt.setString(1, Tax_Table.getValueAt(row, 0).toString());
+                int a = pstmt.executeUpdate();
+                if (a > 0) {
+                    JOptionPane.showMessageDialog(this, "Data successfully deleted.");
+                }
+                retTax();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+       
+    }//GEN-LAST:event_Tax_TableKeyPressed
+
+    private void txtTaxRateKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTaxRateKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTaxRateKeyReleased
+
+    private void txtTaxRateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTaxRateKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtTaxRateKeyTyped
+
+    private void txtTaxAmtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTaxAmtKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtTaxAmtKeyTyped
+
+    private void txtDARateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDARateKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtDARateKeyTyped
+
+    private void txtBonusRateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBonusRateKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtBonusRateKeyTyped
+
+    private void txtAccRateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAccRateKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtAccRateKeyTyped
+
+    private void txtMedRateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMedRateKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMedRateKeyTyped
+
+    private void txtTravRateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTravRateKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtTravRateKeyTyped
+
+    private void txtOtherRateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOtherRateKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtOtherRateKeyTyped
+
+    private void txtDAAmtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDAAmtKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtDAAmtKeyTyped
+
+    private void txtBonusAmtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBonusAmtKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtBonusAmtKeyTyped
+
+    private void txtAccAmtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAccAmtKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtAccAmtKeyTyped
+
+    private void txtMedAmtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMedAmtKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMedAmtKeyTyped
+
+    private void txtTravAmtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTravAmtKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtTravAmtKeyTyped
+
+    private void txtOtherAmtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOtherAmtKeyTyped
+        // TODO add your handling code here:
+        char ch = evt.getKeyChar();
+        if (!Character.isDigit(ch) && !(evt.getKeyChar() == '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtOtherAmtKeyTyped
+
+    private void Tax_TablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_Tax_TablePropertyChange
+        // TODO add your handling code here:
+            int row = Tax_Table.getSelectedRow();
+            int col = Tax_Table.getSelectedColumn();
+            if (row >= 0 || col >= 0) {
+                try {
+                    pstmt = connection.prepareStatement("update tax_setting set rate = ? where tax_name = ?");
+                    pstmt.setString(1, Tax_Table.getValueAt(row, 1).toString());
+                    pstmt.setString(2, Tax_Table.getValueAt(row, 0).toString());
+                    int a = pstmt.executeUpdate();
+                    if (a > 0) {
+                        JOptionPane.showMessageDialog(this, "Tax setting successfully updated.");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+    }//GEN-LAST:event_Tax_TablePropertyChange
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BtnAdd;
+    private javax.swing.JLabel BtnApply;
+    private javax.swing.JLabel BtnClose;
+    private javax.swing.JTable Tax_Table;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.ButtonGroup buttonGroup5;
+    private javax.swing.ButtonGroup buttonGroup6;
+    private javax.swing.ButtonGroup buttonGroup7;
+    private javax.swing.JComboBox cmbTaxName;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton rbAccAmt;
+    private javax.swing.JRadioButton rbAccRate;
+    private javax.swing.JRadioButton rbBonusAmt;
+    private javax.swing.JRadioButton rbBonusRate;
+    private javax.swing.JRadioButton rbDAAmt;
+    private javax.swing.JRadioButton rbDARate;
+    private javax.swing.JRadioButton rbMedAmt;
+    private javax.swing.JRadioButton rbMedRate;
+    private javax.swing.JRadioButton rbOtherAmt;
+    private javax.swing.JRadioButton rbOtherRate;
+    private javax.swing.JRadioButton rbTaxAmt;
+    private javax.swing.JRadioButton rbTaxRate;
+    private javax.swing.JRadioButton rbTravAmt;
+    private javax.swing.JRadioButton rbTravRate;
+    private javax.swing.JPanel taxPanel;
+    private javax.swing.JTextField txtAccAmt;
+    private javax.swing.JTextField txtAccRate;
+    private javax.swing.JTextField txtBonusAmt;
+    private javax.swing.JTextField txtBonusRate;
+    private javax.swing.JTextField txtDAAmt;
+    private javax.swing.JTextField txtDARate;
+    private javax.swing.JTextField txtMedAmt;
+    private javax.swing.JTextField txtMedRate;
+    private javax.swing.JTextField txtOtherAmt;
+    private javax.swing.JTextField txtOtherRate;
+    private javax.swing.JTextField txtTaxAmt;
+    private javax.swing.JTextField txtTaxName;
+    private javax.swing.JTextField txtTaxRate;
+    private javax.swing.JTextField txtTravAmt;
+    private javax.swing.JTextField txtTravRate;
+    // End of variables declaration//GEN-END:variables
+}
